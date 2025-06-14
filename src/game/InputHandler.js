@@ -9,7 +9,7 @@ export class InputHandler {
       }
       
       // Prevent default behavior for game keys
-      if (['ArrowUp', 'ArrowDown', ' '].includes(e.key)) {
+      if (['ArrowUp', 'ArrowDown', ' ', 'Shift', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
         e.preventDefault();
       }
     });

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cautious Train - Racing Championship</title>
+    <title>Cautious Train - Ultimate Racing Championship</title>
   </head>
   <body>
     <div id="app">
@@ -14,35 +14,57 @@
         <div id="fuel">Fuel: 100%</div>
         <div id="speed">Speed: 0 mph</div>
         <div id="position">Position: 1</div>
+        <div id="health">Health: 100%</div>
+        <div id="level">Level: 1</div>
+        <div id="combo" style="display: none;">Combo: 0x</div>
         <div id="instructions">
-          <h3>🚂 Cautious Train Racing Championship</h3>
+          <h3>🚂 Cautious Train - Ultimate Racing Championship</h3>
           <div class="controls">
-            <h4>Controls:</h4>
+            <h4>Enhanced Controls:</h4>
             <p>↑ Arrow - Speed Up</p>
             <p>↓ Arrow - Slow Down</p>
             <p>Space - Emergency Brake</p>
+            <p>Shift - Turbo Boost (consumes extra fuel)</p>
           </div>
           <div class="features">
-            <h4>New Features:</h4>
-            <p>🏁 Race against AI trains</p>
-            <p>⚡ Collect power-ups for advantages</p>
-            <p>🌦️ Dynamic weather affects gameplay</p>
-            <p>🏆 Live race standings</p>
-            <p>🛡️ Shield, Speed Boost, Magnet & Fuel</p>
+            <h4>Ultimate Features:</h4>
+            <p>🏁 Race against 7 intelligent AI trains</p>
+            <p>⚡ 8 different power-ups with unique effects</p>
+            <p>🌦️ Dynamic weather with day/night cycle</p>
+            <p>🏆 Live race standings and combo system</p>
+            <p>💎 6 different obstacle types with varying difficulty</p>
+            <p>🎯 Level progression and experience system</p>
+            <p>💥 Spectacular particle effects and explosions</p>
+            <p>🏅 Achievement system and combo multipliers</p>
+          </div>
+          <div class="powerups">
+            <h4>Power-ups:</h4>
+            <p>⚡ Speed Boost - Increases max speed</p>
+            <p>🛡️ Shield - Protects from obstacles</p>
+            <p>🧲 Magnet - Attracts coal and items</p>
+            <p>⛽ Fuel - Instant fuel refill</p>
+            <p>❤️ Health - Restores train health</p>
+            <p>⭐ Invincibility - Temporary invulnerability</p>
+            <p>🔥 Turbo - Extreme speed boost</p>
+            <p>💫 Multi - Experience bonus</p>
           </div>
           <div class="strategy">
-            <h4>Strategy:</h4>
-            <p>• Balance speed vs safety</p>
-            <p>• Collect coal to refuel</p>
-            <p>• Use power-ups strategically</p>
-            <p>• Watch the weather conditions</p>
+            <h4>Advanced Strategy:</h4>
+            <p>• Build combos for massive score multipliers</p>
+            <p>• Manage health, fuel, and speed carefully</p>
+            <p>• Use turbo boost strategically</p>
+            <p>• Adapt to changing weather conditions</p>
+            <p>• Level up to unlock higher speeds</p>
+            <p>• Time power-up usage for maximum effect</p>
           </div>
         </div>
-        <button id="startBtn">Start Racing!</button>
+        <button id="startBtn">Start Ultimate Race!</button>
         <div id="gameOver" style="display: none;">
           <h2>Race Finished!</h2>
           <p id="finalScore">Final Score: 0</p>
-          <p id="racePosition">Race Position: 1/6</p>
+          <p id="racePosition">Race Position: 1/8</p>
+          <p id="finalLevel">Final Level: 1</p>
+          <p id="maxCombo">Max Combo: 0x</p>
           <button id="restartBtn">Race Again</button>
         </div>
       </div>
