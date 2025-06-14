@@ -18,6 +18,7 @@ body {
   font-family: "Poppins", sans-serif;
   overflow-x: hidden;
   user-select: none;
+  background: #000000;
 }
 
 /* Utility classes */
@@ -41,7 +42,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #1a1a1a;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -53,7 +54,17 @@ body {
   background: linear-gradient(135deg, #764ba2, #667eea);
 }
 
-/* 3D Cube Styles */
+/* 3D Card Effects */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.card-3d:hover {
+  transform: rotateY(10deg) rotateX(10deg) scale(1.05);
+}
+
+/* Cube Styles */
 .cube-container {
   perspective: 1000px;
 }
@@ -168,6 +179,21 @@ body {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* 3D specific styles */
+canvas {
+  background: radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+}
+
+/* Loading animations */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 /* Responsive design helpers */
 @media (max-width: 768px) {
   .cube-face {
@@ -182,4 +208,9 @@ body {
   .cube-face.left { transform: rotateY(-90deg) translateZ(75px); }
   .cube-face.top { transform: rotateX(90deg) translateZ(75px); }
   .cube-face.bottom { transform: rotateX(-90deg) translateZ(75px); }
+}
+
+/* Framer Motion 3D styles */
+.motion-3d {
+  transform-style: preserve-3d;
 }
