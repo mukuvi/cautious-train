@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cautious Train</title>
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="gameCanvas" width="1200" height="600"></canvas>
+      <div id="ui">
+        <div id="score">Score: 0</div>
+        <div id="fuel">Fuel: 100%</div>
+        <div id="speed">Speed: 0 mph</div>
+        <div id="instructions">
+          <h3>Controls:</h3>
+          <p>↑ Arrow - Speed Up</p>
+          <p>↓ Arrow - Slow Down</p>
+          <p>Space - Emergency Brake</p>
+          <p>Collect coal to refuel!</p>
+        </div>
+        <button id="startBtn">Start Game</button>
+        <div id="gameOver" style="display: none;">
+          <h2>Game Over!</h2>
+          <p id="finalScore">Final Score: 0</p>
+          <button id="restartBtn">Play Again</button>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
