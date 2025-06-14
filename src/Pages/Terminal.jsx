@@ -46,331 +46,165 @@ const socials = [
   },
 ];
 
-export default function App() {
+export default function Terminal() {
   return (
-    <>
-      <style>{`
-      body {
-        background: #181818;
-        color: #e5e5e5;
-        font-family: "Fira Mono", "Consolas", "Menlo", monospace;
-        margin: 0;
-        min-height: 100vh;
-        padding: 0;
-      }
-      .terminal {
-        max-width: 780px;
-        margin: 40px auto 0 auto;
-        background: #242424;
-        border-radius: 8px;
-        box-shadow: 0 4px 30px #000a;
-        padding: 32px;
-        position: relative;
-        overflow: auto;
-        animation: fadeInMain 1.1s cubic-bezier(.48,0,.56,1.01);
-      }
-      @keyframes fadeInMain {
-        from { opacity: 0; transform: translateY(30px);}
-        to { opacity: 1; transform: translateY(0);}
-      }
-      .terminal-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 18px;
-        opacity: 0;
-        animation: fadeInSection 0.6s 0.05s forwards;
-      }
-      .terminal-dots {
-        display: flex;
-        gap: 8px;
-      }
-      .dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        display: inline-block;
-      }
-      .dot.red {
-        background: #ff5f56;
-      }
-      .dot.yellow {
-        background: #ffbd2e;
-      }
-      .dot.green {
-        background: #27c93f;
-      }
-      .terminal-title {
-        flex: 1;
-        text-align: center;
-        color: #aaa;
-        font-size: 1.1em;
-        letter-spacing: 1px;
-        font-weight: bold;
-        user-select: none;
-      }
-      .prompt {
-        color: #00ff00;
-        font-weight: bold;
-        letter-spacing: 1px;
-        margin-right: 6px;
-        opacity: 0;
-        animation: fadeInPrompt 0.7s 0.07s forwards;
-      }
-      @keyframes fadeInPrompt {
-        from {opacity: 0;}
-        to {opacity: 1;}
-      }
-      a {
-        color: #00e0ff;
-        text-decoration: none;
-        transition: color 0.2s, box-shadow 0.2s;
-      }
-      a:hover {
-        color: #fff;
-        text-decoration: underline;
-        box-shadow: 0 2px 12px #00e0ff44;
-      }
-      .section {
-        margin-top: 32px;
-        opacity: 0;
-        transform: translateY(24px);
-        animation: fadeInSection 1s forwards;
-      }
-      .section:nth-of-type(1) { animation-delay: 0.22s; }
-      .section:nth-of-type(2) { animation-delay: 0.34s; }
-      .section:nth-of-type(3) { animation-delay: 0.46s; }
-      .section:nth-of-type(4) { animation-delay: 0.58s; }
-      @keyframes fadeInSection {
-        from { opacity: 0; transform: translateY(24px);}
-        to { opacity: 1; transform: translateY(0);}
-      }
-      .section-title {
-        color: #ffb86c;
-        font-size: 1.1em;
-        margin-bottom: 10px;
-        letter-spacing: 1px;
-        font-weight: bold;
-        text-shadow: 0 2px 10px #0008;
-        opacity: 0;
-        animation: fadeInSectionTitle 0.8s 0.25s forwards;
-      }
-      @keyframes fadeInSectionTitle {
-        from {opacity: 0;}
-        to {opacity: 1;}
-      }
-      .about-list,
-      .project-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-      .about-list li,
-      .project-list li {
-        margin-bottom: 10px;
-        font-size: 1.02em;
-      }
-      .about-list li {
-        opacity: 0;
-        animation: fadeInItem 0.7s forwards;
-      }
-      .about-list li:nth-child(1) {animation-delay: 0.28s;}
-      .about-list li:nth-child(2) {animation-delay: 0.36s;}
-      .about-list li:nth-child(3) {animation-delay: 0.44s;}
-      .about-list li:nth-child(4) {animation-delay: 0.52s;}
-      .about-list li:nth-child(5) {animation-delay: 0.60s;}
-      .about-list li:nth-child(6) {animation-delay: 0.68s;}
-      .about-list li:nth-child(7) {animation-delay: 0.76s;}
-      @keyframes fadeInItem {
-        from {opacity: 0; transform: translateX(-20px);}
-        to {opacity: 1; transform: translateX(0);}
-      }
-      .project-list li {
-        background: #23272e;
-        border-radius: 7px;
-        padding: 18px 18px 12px 18px;
-        margin-bottom: 18px;
-        box-shadow: 0 2px 12px #0ff2, 0 1px 2px #0004;
-        position: relative;
-        overflow: hidden;
-        transition: transform 0.22s, box-shadow 0.23s, border-color 0.18s;
-        border-left: 4px solid #00ffbb;
-        opacity: 0;
-        animation: fadeInProject 1s forwards;
-      }
-      .project-list li:nth-child(1) {animation-delay: 0.4s;}
-      .project-list li:nth-child(2) {animation-delay: 0.5s;}
-      .project-list li:nth-child(3) {animation-delay: 0.6s;}
-      @keyframes fadeInProject {
-        from {opacity: 0; transform: translateY(32px) scale(0.97);}
-        to {opacity: 1; transform: translateY(0) scale(1);}
-      }
-      .project-list li:hover {
-        transform: translateY(-3px) scale(1.025);
-        box-shadow: 0 6px 32px #00ffe055, 0 2px 8px #0008;
-        border-left: 4px solid #00ccff;
-      }
-      .tech-list {
-        display: inline-block;
-        background: #363636;
-        color: #80ffea;
-        padding: 2px 8px;
-        border-radius: 6px;
-        font-size: 0.98em;
-        margin-left: 8px;
-        margin-right: 8px;
-        letter-spacing: 0.5px;
-        box-shadow: 0 1px 4px #0002;
-        transition: background 0.2s, color 0.2s;
-      }
-      .project-list li:hover .tech-list {
-        background: #242c3b;
-        color: #00ffe0;
-      }
-      .footer {
-        margin-top: 40px;
-        text-align: center;
-        color: #555;
-        font-size: 0.95em;
-        letter-spacing: 1px;
-        padding-bottom: 10px;
-        opacity: 0;
-        animation: fadeInFooter 1s 1.1s forwards;
-      }
-      @keyframes fadeInFooter {
-        from {opacity: 0; transform: translateY(16px);}
-        to {opacity: 1; transform: translateY(0);}
-      }
-      @media (max-width: 600px) {
-        .terminal {
-          padding: 16px;
-          max-width: 98vw;
-        }
-        .project-list li {
-          padding: 14px 8px 9px 10px;
-        }
-      }
-      /* Terminal cursor effect */
-      .blinking-cursor {
-        font-weight: bold;
-        color: #00ff00;
-        animation: blink 1s steps(1) infinite;
-      }
-      @keyframes blink {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.1;
-        }
-      }
-      `}</style>
-
-      <div className="terminal">
-        <div className="terminal-header">
-          <div className="terminal-dots">
-            <span className="dot red"></span>
-            <span className="dot yellow"></span>
-            <span className="dot green"></span>
+    <div className="min-h-screen bg-gray-900 text-green-400 font-mono">
+      <div className="terminal-window max-w-4xl mx-auto p-4">
+        {/* Terminal Header */}
+        <div className="terminal-header flex items-center justify-between p-4 mb-6">
+          <div className="flex space-x-2">
+            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+            <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
           </div>
-          <span className="terminal-title">mukuvi@portfolio: ~</span>
-          <div style={{ width: 32 }}></div>
+          <span className="text-gray-400 text-sm font-semibold tracking-wider">
+            mukuvi@portfolio: ~
+          </span>
+          <div className="w-16"></div>
         </div>
 
-        {/* About Section */}
-        <div>
-          <span className="prompt">mukuvi@portfolio:~$</span> whoami
-          <ul className="about-list" style={{ marginTop: 8 }}>
-            <li>
-              👋 Hi, I'm <b>mukuvi</b>, a passionate software developer.
-            </li>
-            <li>
-              💻 Currently contributing to
-              <span className="tech-list">ReactJS</span> and
-              <span className="tech-list">NextJS</span> projects.
-            </li>
-            <li>
-              🚀 Excited to be part of the
-              <span className="tech-list">React</span> community!
-            </li>
-            <li>
-              👯 Open to collaboration on <span className="tech-list">web</span>{" "}
-              and
-              <span className="tech-list">mobile app</span> development.
-            </li>
-            <li>
-              🌱 Building cool native apps using
-              <span className="tech-list">React Native</span>.
-            </li>
-            <li>
-              💬 Love open source. Let's discuss collaboration and contribution!
-            </li>
-            <li>
-              ⚡ Fun fact: Music and coding in motion! 🎶💻 Harmonizing beats
-              and algorithms.
-            </li>
-          </ul>
-        </div>
-
-        <div className="section">
-          <span className="prompt">mukuvi@portfolio:~$</span> ls ./projects
-          <div className="section-title">Projects</div>
-          <ul className="project-list">
-            {projects.map((p) => (
-              <li key={p.name}>
-                <b>
-                  <a href={p.url} target="_blank" rel="noopener noreferrer">
-                    {p.name}
-                  </a>
-                </b>
-                <div>
-                  {p.tech.map((t) => (
-                    <span key={t} className="tech-list">
-                      {t}
-                    </span>
-                  ))}
+        {/* Terminal Content */}
+        <div className="p-6 space-y-8">
+          {/* About Section */}
+          <div className="animate-slideInUp">
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-green-400 font-bold">mukuvi@portfolio:~$</span>
+              <span className="text-white">whoami</span>
+            </div>
+            <div className="ml-6 space-y-2 text-gray-300">
+              {[
+                "👋 Hi, I'm mukuvi, a passionate software developer.",
+                "💻 Currently contributing to ReactJS and NextJS projects.",
+                "🚀 Excited to be part of the React community!",
+                "👯 Open to collaboration on web and mobile app development.",
+                "🌱 Building cool native apps using React Native.",
+                "💬 Love open source. Let's discuss collaboration and contribution!",
+                "⚡ Fun fact: Music and coding in motion! 🎶💻 Harmonizing beats and algorithms."
+              ].map((line, index) => (
+                <div 
+                  key={index}
+                  className="animate-slideInLeft"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  {line}
                 </div>
-                <span style={{ color: "#cfc" }}>{p.desc}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="section">
-          <span className="prompt">mukuvi@portfolio:~$</span> cat ./skills.txt
-          <div className="section-title">Technologies & Skills</div>
-          <div>
-            {skills.map((skill) => (
-              <span className="tech-list" key={skill}>
-                {skill}
-              </span>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="section">
-          <span className="prompt">mukuvi@portfolio:~$</span> echo "Contact &
-          Links"
-          <div className="section-title">Find me online</div>
-          <div>
-            {socials.map((s, i) => (
-              <React.Fragment key={s.url}>
-                <a href={s.url} target="_blank" rel="noopener noreferrer">
-                  {s.name}
-                </a>
-                {i < socials.length - 1 && " | "}
-              </React.Fragment>
-            ))}
+          {/* Projects Section */}
+          <div className="animate-slideInUp" style={{ animationDelay: '0.8s' }}>
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-green-400 font-bold">mukuvi@portfolio:~$</span>
+              <span className="text-white">ls ./projects</span>
+            </div>
+            <div className="ml-6">
+              <h3 className="text-orange-400 font-bold text-lg mb-4">Projects</h3>
+              <div className="space-y-4">
+                {projects.map((project, index) => (
+                  <div 
+                    key={project.name}
+                    className="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-green-400 transition-all duration-300 transform hover:-translate-y-1 animate-slideInUp"
+                    style={{ animationDelay: `${0.9 + index * 0.1}s` }}
+                  >
+                    <div className="mb-2">
+                      <a
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-cyan-400 hover:text-cyan-300 font-bold text-lg transition-colors duration-200"
+                      >
+                        {project.name}
+                      </a>
+                    </div>
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {project.tech.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-2 py-1 bg-gray-700 text-cyan-300 text-xs rounded border border-gray-600"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                    <p className="text-green-300 text-sm">{project.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div className="footer">
-          <span className="prompt">mukuvi@portfolio:~$</span>
-          <span className="blinking-cursor">█</span> <br />
-          &copy; {new Date().getFullYear()}&mdash;
-          <a href="https://www.mukuvi.me">mukuvi</a> &mdash; all rights reserved
+          {/* Skills Section */}
+          <div className="animate-slideInUp" style={{ animationDelay: '1.2s' }}>
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-green-400 font-bold">mukuvi@portfolio:~$</span>
+              <span className="text-white">cat ./skills.txt</span>
+            </div>
+            <div className="ml-6">
+              <h3 className="text-orange-400 font-bold text-lg mb-4">Technologies & Skills</h3>
+              <div className="flex flex-wrap gap-2">
+                {skills.map((skill, index) => (
+                  <span
+                    key={skill}
+                    className="px-3 py-1 bg-gray-700 text-cyan-300 text-sm rounded border border-gray-600 hover:border-cyan-400 transition-colors duration-200 animate-slideInUp"
+                    style={{ animationDelay: `${1.3 + index * 0.05}s` }}
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Section */}
+          <div className="animate-slideInUp" style={{ animationDelay: '1.5s' }}>
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-green-400 font-bold">mukuvi@portfolio:~$</span>
+              <span className="text-white">echo "Contact & Links"</span>
+            </div>
+            <div className="ml-6">
+              <h3 className="text-orange-400 font-bold text-lg mb-4">Find me online</h3>
+              <div className="space-x-4">
+                {socials.map((social, index) => (
+                  <React.Fragment key={social.url}>
+                    <a
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-cyan-400 hover:text-cyan-300 transition-colors duration-200 underline"
+                    >
+                      {social.name}
+                    </a>
+                    {index < socials.length - 1 && (
+                      <span className="text-gray-500">|</span>
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="animate-slideInUp pt-8 border-t border-gray-700" style={{ animationDelay: '1.7s' }}>
+            <div className="flex items-center space-x-2 mb-2">
+              <span className="text-green-400 font-bold">mukuvi@portfolio:~$</span>
+              <span className="text-white animate-pulse">█</span>
+            </div>
+            <div className="text-center text-gray-500 text-sm">
+              <p>
+                &copy; {new Date().getFullYear()} —{" "}
+                <a
+                  href="https://www.mukuvi.me"
+                  className="text-cyan-400 hover:text-cyan-300 transition-colors duration-200"
+                >
+                  mukuvi
+                </a>{" "}
+                — all rights reserved
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
