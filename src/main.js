@@ -24,16 +24,18 @@ restartBtn.addEventListener('click', () => {
 });
 
 // Handle game over
-game.onGameOver = (finalScore) => {
+game.onGameOver = (finalScore, position, totalTrains) => {
   document.getElementById('finalScore').textContent = `Final Score: ${finalScore}`;
+  document.getElementById('racePosition').textContent = `Race Position: ${position}/${totalTrains}`;
   gameOverDiv.style.display = 'block';
 };
 
 // Handle UI updates
-game.onUIUpdate = (score, fuel, speed) => {
+game.onUIUpdate = (score, fuel, speed, position) => {
   document.getElementById('score').textContent = `Score: ${score}`;
   document.getElementById('fuel').textContent = `Fuel: ${Math.round(fuel)}%`;
   document.getElementById('speed').textContent = `Speed: ${Math.round(speed)} mph`;
+  document.getElementById('position').textContent = `Position: ${position}`;
 };
 
 // Start the game loop

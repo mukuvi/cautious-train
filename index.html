@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cautious Train</title>
+    <title>Cautious Train - Racing Championship</title>
   </head>
   <body>
     <div id="app">
@@ -13,18 +13,37 @@
         <div id="score">Score: 0</div>
         <div id="fuel">Fuel: 100%</div>
         <div id="speed">Speed: 0 mph</div>
+        <div id="position">Position: 1</div>
         <div id="instructions">
-          <h3>Controls:</h3>
-          <p>↑ Arrow - Speed Up</p>
-          <p>↓ Arrow - Slow Down</p>
-          <p>Space - Emergency Brake</p>
-          <p>Collect coal to refuel!</p>
+          <h3>🚂 Cautious Train Racing Championship</h3>
+          <div class="controls">
+            <h4>Controls:</h4>
+            <p>↑ Arrow - Speed Up</p>
+            <p>↓ Arrow - Slow Down</p>
+            <p>Space - Emergency Brake</p>
+          </div>
+          <div class="features">
+            <h4>New Features:</h4>
+            <p>🏁 Race against AI trains</p>
+            <p>⚡ Collect power-ups for advantages</p>
+            <p>🌦️ Dynamic weather affects gameplay</p>
+            <p>🏆 Live race standings</p>
+            <p>🛡️ Shield, Speed Boost, Magnet & Fuel</p>
+          </div>
+          <div class="strategy">
+            <h4>Strategy:</h4>
+            <p>• Balance speed vs safety</p>
+            <p>• Collect coal to refuel</p>
+            <p>• Use power-ups strategically</p>
+            <p>• Watch the weather conditions</p>
+          </div>
         </div>
-        <button id="startBtn">Start Game</button>
+        <button id="startBtn">Start Racing!</button>
         <div id="gameOver" style="display: none;">
-          <h2>Game Over!</h2>
+          <h2>Race Finished!</h2>
           <p id="finalScore">Final Score: 0</p>
-          <button id="restartBtn">Play Again</button>
+          <p id="racePosition">Race Position: 1/6</p>
+          <button id="restartBtn">Race Again</button>
         </div>
       </div>
     </div>

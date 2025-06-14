@@ -15,6 +15,12 @@ export class Train {
     
     this.crashed = false;
     this.smokeParticles = [];
+    
+    // Power-up effects
+    this.speedBoostTimer = 0;
+    this.shieldTimer = 0;
+    this.magnetTimer = 0;
+    this.originalMaxSpeed = this.maxSpeed;
   }
   
   reset() {
@@ -22,14 +28,48 @@ export class Train {
     this.fuel = 100;
     this.crashed = false;
     this.smokeParticles = [];
+    this.speedBoostTimer = 0;
+    this.shieldTimer = 0;
+    this.magnetTimer = 0;
+    this.maxSpeed = this.originalMaxSpeed;
   }
   
   update(deltaTime) {
     if (this.crashed) return;
     
+    // Update power-up timers
+    if (this.speedBoostTimer > 0) {
+      this.speedBoostTimer -= deltaTime;
+      if (this.speedBoostTimer <= 0) {
+        this.maxSpeed = this.originalMaxSpeed;
+      }
+    }
+    
+    if (this.shieldTimer > 0) {
+      this.shieldTimer -= deltaTime;
+    }
+    
+    if (this.magnetTimer > 0) {
+      this.magnetTimer -= deltaTime;
+      // Attract nearby coal
+      this.game.coals.forEach(coal => {
+        const dx = this.x + this.width/2 - (coal.x + coal.width/2);
+        const dy = this.y + this.height/2 - (coal.y + coal.height/2);
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < 100) {
+          coal.x += dx * 0.05;
+          coal.y += dy * 0.05;
+        }
+      });
+    }
+    
+    // Apply weather effects
+    const weatherModifier = this.game.weather.getSpeedModifier();
+    
     // Handle input
     if (this.game.inputHandler.keys.includes('ArrowUp') && this.fuel > 0) {
-      this.speed = Math.min(this.maxSpeed, this.speed + this.acceleration);
+      this.speed = Math.min(this.maxSpeed * weatherModifier, this.speed + this.acceleration);
       this.fuel -= this.fuelConsumption * (this.speed / 10);
     }
     
@@ -74,6 +114,29 @@ export class Train {
   }
   
   draw(ctx) {
+    // Draw shield effect
+    if (this.shieldTimer > 0) {
+      ctx.save();
+      ctx.globalAlpha = 0.5;
+      ctx.strokeStyle = '#00FFFF';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2 + 15, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
+    
+    // Draw magnet effect
+    if (this.magnetTimer > 0) {
+      ctx.save();
+      ctx.globalAlpha = 0.3;
+      ctx.fillStyle = '#FFAA00';
+      ctx.beginPath();
+      ctx.arc(this.x + this.width/2, this.y + this.height/2, 100, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+    
     // Draw smoke
     this.smokeParticles.forEach(particle => {
       ctx.save();
@@ -86,7 +149,12 @@ export class Train {
     });
     
     // Draw train body
-    ctx.fillStyle = this.crashed ? '#8B0000' : '#2C3E50';
+    let trainColor = this.crashed ? '#8B0000' : '#2C3E50';
+    if (this.speedBoostTimer > 0) {
+      trainColor = '#FF4444';
+    }
+    
+    ctx.fillStyle = trainColor;
     ctx.fillRect(this.x, this.y, this.width, this.height);
     
     // Draw train front
@@ -134,6 +202,32 @@ export class Train {
       ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
       ctx.fillRect(this.x - 5, this.y - 5, this.width + 10, this.height + 10);
     }
+    
+    // Draw power-up indicators
+    let indicatorY = this.y - 35;
+    if (this.speedBoostTimer > 0) {
+      ctx.fillStyle = 'rgba(255, 68, 68, 0.8)';
+      ctx.fillRect(this.x, indicatorY, 20, 15);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = '12px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('⚡', this.x + 10, indicatorY + 11);
+      indicatorY -= 20;
+    }
+    
+    if (this.shieldTimer > 0) {
+      ctx.fillStyle = 'rgba(68, 68, 255, 0.8)';
+      ctx.fillRect(this.x + 25, this.y - 35, 20, 15);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillText('🛡', this.x + 35, this.y - 24);
+    }
+    
+    if (this.magnetTimer > 0) {
+      ctx.fillStyle = 'rgba(255, 170, 0, 0.8)';
+      ctx.fillRect(this.x + 50, this.y - 35, 20, 15);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillText('🧲', this.x + 60, this.y - 24);
+    }
   }
   
   collidesWith(object) {
@@ -141,5 +235,9 @@ export class Train {
            this.x + this.width > object.x &&
            this.y < object.y + object.height &&
            this.y + this.height > object.y;
+  }
+  
+  hasShield() {
+    return this.shieldTimer > 0;
   }
 }
